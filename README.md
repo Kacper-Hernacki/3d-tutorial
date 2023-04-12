@@ -1,16 +1,63 @@
+## Usage
+
+In this app, a 3D model is loaded using the `GLTFLoader` from the `three-stdlib` package. The `useLoader` hook is used to asynchronously load the model and render it using the `primitive` component.
+
+```javascript
+const Model = () => {
+  const gltf = useLoader(GLTFLoader, "/threedobject/scene.gltf");
+
+  return (
+    <>
+      <primitive dispose={null} object={gltf.scene} scale={2} />
+    </>
+  );
+};
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
+
+The 3D scene is rendered using the Canvas component from @react-three/fiber. This component creates a WebGL canvas and renders the 3D scene using the three.js library.
+
+```javascript
+
+<Canvas shadows dpr={[1, 2]} camera={{ position: [8, 8, 4], fov: 100 }}>
+  <ambientLight intensity={0.5} />
+  <spotLight intensity={0.1} angle={0.6} penumbra={8} position={[10, 15, 10]} />
+
+  <Suspense fallback={null}>
+    <Model />
+    <Environment preset="city" />
+  </Suspense>
+  <OrbitControls autoRotate />
+</Canvas>
+
+
+
+```
+
+The OrbitControls component is used to enable camera controls in the scene, and the Environment component is used to create a background and lighting.
+
+The size of the 3D container is styled using styled-components.
+
+```javascript
+
+const ThreeDContainer = styled.div`
+  canvas {
+    height: 660px !important;
+    width: 400px !important;
+  }
+`;
+
+
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## Getting started
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
